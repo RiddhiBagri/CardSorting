@@ -4,6 +4,7 @@ You are given a deck of cards numbered from 1 to n. The cards are shuffled rando
 
 Program to sort the pile of cards with the minimum number of MoveCard operations. The number of cards should lie in the range 1-10.
 
+The program is written in JAVA.
 Input to the program is the number of cards and the Initial state (after the cards are shuffled).
 Both the inputs are validated to ensure teh input is numbers only and number of cards(n) lie in the range 1-10 inclusive. And the Initial state of cards contain only numbers from 1 to n.
 
