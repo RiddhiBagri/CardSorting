@@ -1,0 +1,142 @@
+import java.io.*;
+
+public class CardSorting {
+    int n;
+    String initial;
+    String[] in;
+    int[] pos;
+	public CardSorting(int n,String initial) {
+		
+		this.n=n;
+		this.initial=initial;
+		pos=new int[n];
+	}
+	
+	public void convert()
+	{   
+		int k;
+		in=initial.split(" ");
+		for(int i=0;i<n;i++)  //i - position in initial  
+			{
+			 k=Integer.parseInt(in[i]);  //k- number in initial in position i
+			 pos[k-1]=i+1; //pos contains the initial position of numbers 
+			 
+			}
+	
+	}
+   
+	public String moveCard(int in)  //method to move card to the top of the pile
+	{
+		String out;
+		String in_n=in+"";
+		in_n.trim();
+		out=in_n+" ";
+		for(int i=0;i<initial.length();i++)
+		{   if (i!=initial.indexOf(in_n))
+			 {char ch=initial.charAt(i);
+			  if(ch>=48 && ch<=57 )
+			    out=out+initial.charAt(i)+" ";
+		
+			 }
+		}
+		return out;		
+	}
+	
+	public void process()  //method to implement the process of Sorting the Cards
+	{
+		convert();
+		int max=0;
+		int[] diff=new int[n];
+		for(int i=0;i<n;i++) 
+			diff[i]=pos[i]-(i+1); //difference(current_position - actual_position)
+		
+		for(int i=n-1;i>-1;i--)  
+			{if(diff[i]<0)  //Finds the highest card which is present at a position before its actual position
+				{
+				
+				 for(int j=i-1;j>-1;j--)
+					if(diff[j]>=0)  // Finds the card whose diff value is greater than or equal to 0 s.t card<highest card found at the loop above
+						{
+						max=j+1;
+						break;
+						}
+				 break;
+				}
+			}
+
+		if(max >0)
+		for(int i=max;i>0;i--)  
+		{
+			initial=moveCard(i);
+			System.out.println(initial);
+		}
+		else
+			System.out.println("Input is already sorted:"+ initial);
+	}
+	
+	public static void main(String[] args) {
+		
+        int n;
+        String num;
+        String initial;
+        BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+        try
+        {   while(true)  //Validating the number of cards
+          {
+        	System.out.print("Enter number of cards(1-10): ");
+        	  num=br.readLine();
+        	  if((num.length() == 1 && num.charAt(0)>=48 && num.charAt(0)<=57) ||(num.length()==2 && num.charAt(0)== 49 && num.charAt(1)==48))
+        	  { 
+        		  n=Integer.parseInt(num);
+        		  break;
+        	  }  
+        	  System.out.println("Wrong value for the number of cards.Please enter again.");
+          }
+          while(true) //validating the initial state
+          { 
+        	  System.out.print("Initial state(after cards are shuffled):");
+        	  initial=br.readLine();
+        	  boolean f=true;
+        	 
+        	  if(initial.length()==2*n-1)
+      		{	
+        	  for(int i=0;i<initial.length();i++)
+        	  {   
+        		
+        		if((i!=initial.length()-1 && initial.charAt(i)>=48 && initial.charAt(i)<=57 && initial.charAt(i+1)==' ' && !(initial.substring(0,i).contains(initial.substring(i,i+1))))||(i==initial.length()-1 && initial.charAt(i)>=48 && initial.charAt(i)<=57) && !(initial.substring(0,i).contains(initial.substring(i,i+1))))
+        		   
+        		  {   int n1=Integer.parseInt(initial.substring(i,i+1));
+        		      
+        		      if(n1 <=n)
+        			    i++;
+        		      else
+        		      {
+        		    	  f=false;
+        		    	  break;		  
+        		      }
+        		  }	  
+        		  else
+        			  {
+        			   f=false;
+        			   break;
+        			  }
+        		    
+        	  }
+      		}
+        		else
+        			f=false;
+        	  if(f==false)
+        		  System.out.println("Wrong input.Enter again.");
+        	  else
+        		  break;
+          }	  
+        	  CardSorting cs=new CardSorting(n,initial);
+        	  cs.process();
+        }catch(Exception e)
+        {
+        	e.printStackTrace();
+        }
+      
+	}
+
+}
